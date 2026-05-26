@@ -1014,7 +1014,14 @@ function showResults(){
   // Switch screens
   document.getElementById('screen-audit').classList.remove('active');
   document.getElementById('screen-results').classList.add('active');
-  window.scrollTo(0,0);
+  requestAnimationFrame(() => {
+    const resultsStart = document.querySelector('#screen-results .results-header');
+    if(resultsStart){
+      resultsStart.scrollIntoView({behavior:'smooth', block:'start'});
+    } else {
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+  });
 }
 
 function submitEmail(){
@@ -1037,7 +1044,13 @@ function submitEmail(){
       email_address: email
     })
   })
-  .then(res => res.json())
+  .then(res => res.json().then(data => ({ok: res.ok, data})))
+  .then(({ok, data}) => {
+    if(!ok){
+      throw new Error(data.error || 'Something went wrong — please try again');
+    }
+    return data;
+  })
   .then(data => {
     if(data.success){
       btn.textContent = '✓ You\'re on the list — check your inbox!';
@@ -1051,7 +1064,7 @@ function submitEmail(){
     }
   })
   .catch(err => {
-    btn.textContent = 'Something went wrong — please try again';
+    btn.textContent = err.message || 'Something went wrong — please try again';
     btn.style.background = '#999';
     btn.disabled = false;
   });
