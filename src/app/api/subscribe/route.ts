@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': `Bearer ${process.env.MAILERLITE_API_KEY}`
+        'Authorization': `Bearer ${process.env.MAILERLITE_API_KEY?.trim()}`
       },
       body: JSON.stringify({
         email: email_address,
