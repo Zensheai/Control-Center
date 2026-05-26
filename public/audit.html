@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AI Audit — Keys to AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --emerald:#1A6B4A;
+  --emerald-light:#e8f3ee;
+  --emerald-mid:#2d8a62;
+  --terracotta:#C4603A;
+  --terracotta-light:#f9ede8;
+  --champagne:#F0E6C8;
+  --champagne-dark:#e0d3ad;
+  --navy:#0D1B2A;
+  --warm-white:#FDFAF4;
+  --text-body:#2c3e35;
+  --text-muted:#6b7c74;
+}
+
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--warm-white);
+  color:var(--navy);
+  line-height:1.6;
+  font-size:15px;
+  min-height:100vh;
+}
+
+/* SCREENS */
+.screen{display:none;min-height:100vh;}
+.screen.active{display:block;}
+
+/* ── LANDING ── */
+#screen-landing{
+  background:var(--navy);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+}
+.landing-blob1{position:absolute;top:-60px;right:-60px;width:400px;height:400px;background:var(--emerald);border-radius:50%;opacity:0.12;}
+.landing-blob2{position:absolute;bottom:-80px;left:-80px;width:300px;height:300px;background:var(--terracotta);border-radius:50%;opacity:0.1;}
+.landing-blob3{position:absolute;top:40%;left:30%;width:200px;height:200px;background:var(--champagne);border-radius:50%;opacity:0.04;}
+
+.landing-inner{
+  position:relative;z-index:2;
+  max-width:680px;margin:0 auto;
+  padding:56px 40px 80px;
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+}
+
+.brand-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(240,230,200,0.08);
+  border:1px solid rgba(240,230,200,0.15);
+  border-radius:40px;padding:8px 16px;
+  margin-bottom:48px;width:fit-content;
+}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--terracotta);}
+.brand-pill-text{font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(240,230,200,0.7);}
+
+.landing-eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--terracotta);margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.landing-eyebrow::before{content:'';width:24px;height:1.5px;background:var(--terracotta);}
+
+h1.landing-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(42px,7vw,72px);
+  font-weight:700;line-height:1.06;
+  color:var(--champagne);
+  margin-bottom:24px;
+}
+h1.landing-title em{color:var(--terracotta);font-style:normal;}
+
+.landing-sub{
+  font-size:17px;font-weight:300;
+  color:rgba(240,230,200,0.65);
+  max-width:480px;line-height:1.75;
+  margin-bottom:48px;
+}
+
+.landing-meta{
+  display:flex;gap:32px;flex-wrap:wrap;
+  margin-bottom:56px;
+  padding-bottom:40px;
+  border-bottom:1px solid rgba(240,230,200,0.1);
+}
+.meta-item{display:flex;flex-direction:column;gap:4px;}
+.meta-label{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,230,200,0.35);}
+.meta-value{font-size:13px;font-weight:500;color:rgba(240,230,200,0.75);}
+
+.btn-start{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--terracotta);color:var(--warm-white);
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;
+  padding:16px 32px;border-radius:10px;border:none;cursor:pointer;
+  transition:transform 0.15s,background 0.15s;
+  width:fit-content;
+}
+.btn-start:hover{background:#b5562f;transform:translateY(-1px);}
+.btn-start svg{width:18px;height:18px;}
+
+.landing-promise{
+  margin-top:32px;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.landing-promise-icon{font-size:18px;margin-top:2px;flex-shrink:0;}
+.landing-promise-text{font-size:13px;color:rgba(240,230,200,0.5);line-height:1.65;font-style:italic;}
+
+/* ── PROGRESS BAR ── */
+.progress-bar-wrap{
+  position:sticky;top:0;z-index:100;
+  background:var(--navy);
+  padding:14px 40px;
+  display:flex;align-items:center;gap:16px;
+  border-bottom:1px solid rgba(240,230,200,0.08);
+}
+.progress-brand{font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(240,230,200,0.5);white-space:nowrap;}
+.progress-track{flex:1;height:4px;background:rgba(240,230,200,0.1);border-radius:4px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--terracotta);border-radius:4px;transition:width 0.4s ease;width:0%;}
+.progress-count{font-size:12px;font-weight:600;color:var(--terracotta);white-space:nowrap;min-width:60px;text-align:right;}
+
+/* ── AUDIT SCREEN ── */
+#screen-audit{background:var(--warm-white);}
+.audit-wrap{max-width:760px;margin:0 auto;padding:48px 40px 80px;}
+
+.audit-intro{
+  background:var(--navy);border-radius:16px;
+  padding:32px 36px;margin-bottom:48px;
+  position:relative;overflow:hidden;
+}
+.audit-intro::after{content:'';position:absolute;bottom:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:var(--emerald);opacity:0.15;}
+.audit-intro p{font-size:15px;line-height:1.75;color:rgba(240,230,200,0.88);position:relative;z-index:1;}
+.audit-intro p+p{margin-top:12px;}
+.audit-intro strong{color:var(--terracotta);}
+
+.partial-note{
+  background:var(--terracotta-light);
+  border-left:3px solid var(--terracotta);
+  border-radius:0 10px 10px 0;
+  padding:14px 18px;margin-bottom:40px;
+  font-size:13px;color:var(--text-body);line-height:1.6;
+}
+.partial-note strong{color:var(--terracotta);font-weight:600;}
+
+/* CATEGORY BLOCKS */
+.category{margin-bottom:40px;}
+.cat-header{
+  background:var(--emerald);border-radius:12px 12px 0 0;
+  padding:16px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.cat-name{font-size:13px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--champagne);}
+.cat-sub{font-size:12px;color:rgba(240,230,200,0.55);font-style:italic;}
+.cat-count{font-size:12px;font-weight:600;color:rgba(240,230,200,0.6);}
+
+.tasks-list{
+  background:white;
+  border:1.5px solid var(--champagne-dark);
+  border-top:none;
+  border-radius:0 0 12px 12px;
+  overflow:hidden;
+}
+
+.task-row{
+  display:grid;
+  grid-template-columns:1fr 1fr 100px 90px;
+  gap:0;
+  border-bottom:1px solid var(--champagne);
+  transition:background 0.15s;
+  cursor:pointer;
+}
+.task-row:last-child{border-bottom:none;}
+.task-row:hover{background:var(--warm-white);}
+.task-row.checked{background:#f0f7f4;}
+
+.task-cell{padding:14px 16px;font-size:13px;display:flex;align-items:center;}
+.task-cell.name-cell{flex-direction:column;align-items:flex-start;gap:3px;}
+.task-main{font-weight:500;color:var(--navy);font-size:14px;}
+.task-sub{font-size:12px;color:var(--text-muted);line-height:1.4;}
+.task-note{font-size:12px;color:var(--text-muted);line-height:1.5;}
+.task-cell.time-cell{flex-direction:column;align-items:center;justify-content:center;text-align:center;border-left:1px solid var(--champagne);}
+.time-yes{font-size:12px;font-weight:700;color:var(--emerald);}
+.time-partial{font-size:12px;font-weight:700;color:var(--terracotta);}
+.time-no{font-size:12px;color:var(--text-muted);}
+.task-cell.badge-cell{justify-content:center;border-left:1px solid var(--champagne);}
+.task-cell.check-cell{justify-content:center;border-left:1px solid var(--champagne);}
+
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.b-yes{background:#e8f3ee;color:var(--emerald);}
+.b-partial{background:var(--terracotta-light);color:var(--terracotta);}
+.b-no{background:#f1efe8;color:#999;}
+
+.task-checkbox{
+  width:22px;height:22px;border-radius:6px;
+  border:2px solid var(--champagne-dark);
+  background:white;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.15s;flex-shrink:0;
+}
+.task-row.checked .task-checkbox{background:var(--emerald);border-color:var(--emerald);}
+.task-row.checked .task-checkbox svg{display:block;}
+.task-checkbox svg{display:none;width:13px;height:13px;}
+
+.col-headers{
+  display:grid;grid-template-columns:1fr 1fr 100px 90px;
+  background:var(--champagne);border-bottom:1px solid var(--champagne-dark);
+}
+.col-h{padding:10px 16px;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);}
+.col-h.center{text-align:center;}
+
+/* ── TOP 3 LIVE PANEL ── */
+.top3-panel{
+  background:var(--navy);border-radius:16px;
+  padding:28px 32px;margin:48px 0;
+  position:relative;overflow:hidden;
+}
+.top3-panel::before{content:'';position:absolute;top:-30px;right:-30px;width:150px;height:150px;border-radius:50%;background:var(--emerald);opacity:0.1;}
+.top3-label{font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--terracotta);margin-bottom:8px;}
+.top3-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--champagne);margin-bottom:6px;}
+.top3-sub{font-size:13px;color:rgba(240,230,200,0.5);margin-bottom:24px;line-height:1.6;}
+
+.top3-rows{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.top3-row{
+  display:flex;align-items:center;gap:14px;
+  background:rgba(240,230,200,0.06);
+  border:1px solid rgba(240,230,200,0.1);
+  border-radius:10px;padding:14px 16px;
+  min-height:56px;
+  transition:all 0.3s;
+}
+.top3-row.filled{background:rgba(26,107,74,0.2);border-color:rgba(26,107,74,0.4);}
+.top3-num{width:28px;height:28px;border-radius:50%;background:var(--terracotta);color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.top3-task-name{font-size:14px;font-weight:500;color:var(--champagne);flex:1;}
+.top3-task-empty{font-size:13px;color:rgba(240,230,200,0.25);font-style:italic;flex:1;}
+.top3-task-time{font-size:12px;font-weight:700;color:var(--emerald-mid);white-space:nowrap;background:rgba(26,107,74,0.25);padding:3px 10px;border-radius:20px;}
+
+.top3-total{
+  background:rgba(196,96,58,0.15);
+  border:1px solid rgba(196,96,58,0.3);
+  border-radius:10px;padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.total-label{font-size:13px;color:rgba(240,230,200,0.65);}
+.total-value{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--terracotta);}
+.total-value span{font-size:13px;font-weight:400;color:rgba(240,230,200,0.5);font-family:'DM Sans',sans-serif;}
+
+.btn-results{
+  display:block;width:100%;
+  background:var(--terracotta);color:var(--warm-white);
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;
+  padding:18px 32px;border-radius:10px;border:none;cursor:pointer;
+  text-align:center;margin-top:48px;
+  transition:background 0.15s,transform 0.15s;
+}
+.btn-results:hover{background:#b5562f;transform:translateY(-1px);}
+
+/* ── RESULTS SCREEN ── */
+#screen-results{background:var(--warm-white);}
+.results-wrap{max-width:680px;margin:0 auto;padding:56px 40px 80px;}
+
+.results-header{text-align:center;margin-bottom:48px;}
+.results-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--terracotta);margin-bottom:16px;}
+.results-title{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,48px);font-weight:700;color:var(--navy);line-height:1.15;margin-bottom:16px;}
+.results-sub{font-size:15px;color:var(--text-muted);line-height:1.7;}
+
+/* SCORE DISPLAY */
+.score-display{
+  background:var(--navy);border-radius:20px;
+  padding:40px;margin-bottom:40px;
+  text-align:center;position:relative;overflow:hidden;
+}
+.score-display::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:var(--emerald);opacity:0.1;}
+.score-display::after{content:'';position:absolute;bottom:-30px;left:-30px;width:150px;height:150px;border-radius:50%;background:var(--terracotta);opacity:0.08;}
+.score-num{font-family:'Playfair Display',serif;font-size:80px;font-weight:700;color:var(--terracotta);line-height:1;margin-bottom:8px;position:relative;z-index:1;}
+.score-of{font-size:14px;color:rgba(240,230,200,0.4);margin-bottom:20px;position:relative;z-index:1;}
+.score-tier{display:inline-block;background:var(--terracotta);color:var(--warm-white);font-size:13px;font-weight:700;letter-spacing:0.06em;padding:8px 20px;border-radius:30px;margin-bottom:16px;position:relative;z-index:1;}
+.score-desc{font-size:15px;color:rgba(240,230,200,0.75);line-height:1.7;max-width:440px;margin:0 auto;position:relative;z-index:1;}
+
+/* TIME SAVINGS HIGHLIGHT */
+.time-highlight{
+  background:var(--emerald);border-radius:16px;
+  padding:28px 32px;margin-bottom:40px;
+  display:flex;align-items:center;gap:24px;
+}
+.time-big{font-family:'Playfair Display',serif;font-size:56px;font-weight:700;color:var(--champagne);line-height:1;flex-shrink:0;}
+.time-text{flex:1;}
+.time-text-title{font-size:16px;font-weight:600;color:var(--champagne);margin-bottom:6px;}
+.time-text-sub{font-size:13px;color:rgba(240,230,200,0.65);line-height:1.6;}
+
+/* TOP 3 RESULTS */
+.results-top3{margin-bottom:40px;}
+.results-top3-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.results-top3-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px;}
+.r-top3-row{
+  display:flex;align-items:center;gap:14px;
+  background:white;border:1.5px solid var(--champagne-dark);
+  border-radius:12px;padding:16px 20px;margin-bottom:10px;
+}
+.r-top3-num{width:32px;height:32px;border-radius:50%;background:var(--emerald);color:var(--champagne);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.r-top3-name{font-size:14px;font-weight:500;color:var(--navy);flex:1;}
+.r-top3-time{font-size:12px;font-weight:700;color:var(--emerald);background:var(--emerald-light);padding:4px 12px;border-radius:20px;}
+
+/* QUICK WIN */
+.quick-win-result{
+  background:var(--terracotta);border-radius:16px;
+  padding:28px 32px;margin-bottom:40px;
+  position:relative;overflow:hidden;
+}
+.quick-win-result::before{content:'→';position:absolute;right:24px;bottom:-10px;font-size:100px;color:rgba(255,255,255,0.05);line-height:1;}
+.qw-label{font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(253,250,244,0.55);margin-bottom:10px;}
+.qw-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--warm-white);margin-bottom:12px;}
+.qw-text{font-size:14px;color:rgba(253,250,244,0.88);line-height:1.7;}
+
+/* MISTAKES */
+.mistakes{background:var(--navy);border-radius:16px;padding:28px 32px;margin-bottom:40px;}
+.mistakes-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--champagne);margin-bottom:20px;}
+.mistake{display:flex;gap:14px;align-items:flex-start;margin-bottom:16px;}
+.mistake:last-child{margin-bottom:0;}
+.m-num{width:24px;height:24px;border-radius:50%;background:rgba(196,96,58,0.25);color:var(--terracotta);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.m-text{font-size:13px;color:rgba(240,230,200,0.8);line-height:1.65;}
+.m-text strong{color:var(--champagne);}
+
+/* 30-DAY PLAN */
+.plan-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.plan-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px;}
+.plan-step{display:flex;gap:16px;align-items:flex-start;background:white;border:1.5px solid var(--champagne-dark);border-radius:12px;padding:18px 22px;margin-bottom:12px;}
+.plan-num{width:30px;height:30px;border-radius:50%;background:var(--terracotta);color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.plan-content{}
+.plan-step-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:5px;}
+.plan-step-desc{font-size:13px;color:var(--text-muted);line-height:1.6;}
+.plan-tip{margin-top:8px;background:var(--champagne);border-radius:7px;padding:9px 13px;font-size:12px;color:var(--text-body);font-style:italic;}
+
+/* REVISIT */
+.revisit{
+  background:var(--emerald-light);
+  border:1.5px solid #b5d4c4;
+  border-radius:14px;padding:22px 26px;
+  display:flex;gap:16px;align-items:flex-start;
+  margin:32px 0 40px;
+}
+.revisit-icon{font-size:24px;flex-shrink:0;}
+.revisit-title{font-size:14px;font-weight:600;color:var(--emerald);margin-bottom:5px;}
+.revisit-text{font-size:13px;color:var(--text-body);line-height:1.65;}
+.revisit-text strong{color:var(--emerald);}
+
+/* EMAIL CAPTURE */
+.email-capture{
+  background:var(--navy);border-radius:20px;
+  padding:40px;margin-top:48px;
+  text-align:center;position:relative;overflow:hidden;
+}
+.email-capture::before{content:'';position:absolute;top:-30px;right:-30px;width:180px;height:180px;border-radius:50%;background:var(--terracotta);opacity:0.08;}
+.ec-label{font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--terracotta);margin-bottom:12px;position:relative;z-index:1;}
+.ec-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--champagne);margin-bottom:10px;position:relative;z-index:1;}
+.ec-sub{font-size:14px;color:rgba(240,230,200,0.55);margin-bottom:32px;line-height:1.65;position:relative;z-index:1;}
+.ec-form{display:flex;flex-direction:column;gap:12px;max-width:400px;margin:0 auto;position:relative;z-index:1;}
+.ec-input{
+  background:rgba(240,230,200,0.08);
+  border:1.5px solid rgba(240,230,200,0.15);
+  border-radius:10px;padding:14px 18px;
+  font-family:'DM Sans',sans-serif;font-size:14px;
+  color:var(--champagne);outline:none;
+  transition:border-color 0.15s;
+}
+.ec-input::placeholder{color:rgba(240,230,200,0.3);}
+.ec-input:focus{border-color:rgba(196,96,58,0.6);}
+.ec-btn{
+  background:var(--terracotta);color:var(--warm-white);
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;
+  padding:16px;border-radius:10px;border:none;cursor:pointer;
+  transition:background 0.15s;
+}
+.ec-btn:hover{background:#b5562f;}
+.ec-note{font-size:11px;color:rgba(240,230,200,0.3);margin-top:4px;position:relative;z-index:1;}
+
+/* CHANNEL CTA */
+.channel-cta{
+  background:var(--champagne);border-radius:16px;
+  padding:28px 32px;margin-top:24px;
+}
+.cc-title{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:8px;}
+.cc-text{font-size:13px;color:var(--text-muted);line-height:1.65;margin-bottom:16px;}
+.cc-links{display:flex;gap:20px;flex-wrap:wrap;}
+.cc-link{font-size:13px;color:var(--emerald);font-weight:500;}
+
+/* FOOTER */
+.site-footer{background:var(--navy);padding:32px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.sf-brand{font-size:14px;font-weight:600;color:var(--champagne);}
+.sf-sub{font-size:11px;color:rgba(240,230,200,0.4);}
+.sf-link{font-size:12px;color:rgba(240,230,200,0.4);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{animation:fadeUp 0.5s ease forwards;}
+
+.section-divider{height:1px;background:var(--champagne-dark);margin:48px 0;}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     SCREEN 1: LANDING
+══════════════════════════════════════ -->
+<div id="screen-landing" class="screen active">
+  <div class="landing-blob1"></div>
+  <div class="landing-blob2"></div>
+  <div class="landing-blob3"></div>
+  <div class="landing-inner">
+    <div class="brand-pill">
+      <div class="brand-dot"></div>
+      <span class="brand-pill-text">Keys to AI — keysto.ai</span>
+    </div>
+    <div class="landing-eyebrow">Free Tool — Foundations</div>
+    <h1 class="landing-title">The One-Page<br><em>AI Audit</em></h1>
+    <p class="landing-sub">Find out exactly which parts of your business AI can handle right now — and where you still need to be in the driver's seat.</p>
+    <div class="landing-meta">
+      <div class="meta-item"><span class="meta-label">Time to complete</span><span class="meta-value">15–20 minutes</span></div>
+      <div class="meta-item"><span class="meta-label">Tasks reviewed</span><span class="meta-value">19 business tasks</span></div>
+      <div class="meta-item"><span class="meta-label">Level</span><span class="meta-value">Beginner friendly</span></div>
+      <div class="meta-item"><span class="meta-label">Cost</span><span class="meta-value">Free</span></div>
+    </div>
+    <button class="btn-start" onclick="startAudit()">
+      Start the audit
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    <div class="landing-promise">
+      <div class="landing-promise-icon">💡</div>
+      <p class="landing-promise-text">"Don't try to automate everything at once. Find the one task eating the most time and fix that first. One win builds the confidence for the next one." — Simone Keys</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 2: AUDIT
+══════════════════════════════════════ -->
+<div id="screen-audit" class="screen">
+  <div class="progress-bar-wrap">
+    <span class="progress-brand">Keys to AI — Audit</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <span class="progress-count" id="progress-count">0 / 19</span>
+  </div>
+
+  <div class="audit-wrap">
+    <div class="audit-intro">
+      <p>Work through all four business areas below. Check every task you currently handle manually — whether or not you think AI could help. <strong>The audit will figure that out for you.</strong></p>
+      <p>When you're done, scroll down to see your Top 3 auto-populated with the highest time-saving opportunities from your selections.</p>
+    </div>
+
+    <div class="partial-note">
+      <strong>What does "Partial" mean?</strong> AI can handle part of this task but still needs your input. Think of it as a strong assist — AI does the heavy lifting, you do the finishing. Worth trying, just expect 10–15 minutes of reviewing before it's ready.
+    </div>
+
+    <!-- CATEGORY 1: CONTENT -->
+    <div class="category">
+      <div class="cat-header">
+        <div>
+          <div class="cat-name">Content Creation</div>
+          <div class="cat-sub">Writing, video, social, email</div>
+        </div>
+        <div class="cat-count" id="count-content">0 / 6 checked</div>
+      </div>
+      <div class="tasks-list">
+        <div class="col-headers">
+          <div class="col-h">Task</div>
+          <div class="col-h">Honest notes</div>
+          <div class="col-h center">Time saved/wk</div>
+          <div class="col-h center">AI Ready?</div>
+        </div>
+        <div class="task-row" data-id="c1" data-cat="content" data-name="Writing first drafts" data-time-min="2" data-time-max="3" data-time-label="2–3 hrs" data-ready="yes" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Writing first drafts</span><span class="task-sub">Blog posts, emails, captions, scripts</span></div>
+          <div class="task-cell"><span class="task-note">AI drafts, you refine. Saves the bulk of writing time.</span></div>
+          <div class="task-cell time-cell"><span class="time-yes">2–3 hrs</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-yes">Yes</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="c2" data-cat="content" data-name="Repurposing content" data-time-min="2" data-time-max="4" data-time-label="2–4 hrs" data-ready="yes" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Repurposing content</span><span class="task-sub">Turning one piece into multiple formats</span></div>
+          <div class="task-cell"><span class="task-note">One video → 10 pieces. One of AI's strongest use cases.</span></div>
+          <div class="task-cell time-cell"><span class="time-yes">2–4 hrs</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-yes">Yes</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="c3" data-cat="content" data-name="Brainstorming ideas" data-time-min="1" data-time-max="2" data-time-label="1–2 hrs" data-ready="yes" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Brainstorming ideas</span><span class="task-sub">Topics, angles, hooks, headlines</span></div>
+          <div class="task-cell"><span class="task-note">Great thought partner. Always verify before committing.</span></div>
+          <div class="task-cell time-cell"><span class="time-yes">1–2 hrs</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-yes">Yes</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="c4" data-cat="content" data-name="Editing and proofreading" data-time-min="0.5" data-time-max="1" data-time-label="30–60 min" data-ready="partial" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Editing and proofreading</span><span class="task-sub">Grammar, clarity, tone checks</span></div>
+          <div class="task-cell"><span class="task-note">Solid assist, but always do a final human read.</span></div>
+          <div class="task-cell time-cell"><span class="time-partial">30–60 min</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-partial">Partial</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="c5" data-cat="content" data-name="Brand voice and storytelling" data-time-min="0.5" data-time-max="0.75" data-time-label="30–45 min" data-ready="partial" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Brand voice &amp; storytelling</span><span class="task-sub">Content that sounds distinctly like you</span></div>
+          <div class="task-cell"><span class="task-note">Needs heavy prompting + your editing. Worth the effort.</span></div>
+          <div class="task-cell time-cell"><span class="time-partial">30–45 min</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-partial">Partial</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="c6" data-cat="content" data-name="Building audience relationships" data-time-min="0" data-time-max="0" data-time-label="—" data-ready="no" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Building audience relationships</span><span class="task-sub">Comments, DMs, community connection</span></div>
+          <div class="task-cell"><span class="task-note">AI can draft replies. Real connection still requires you.</span></div>
+          <div class="task-cell time-cell"><span class="time-no">—</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-no">Not yet</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CATEGORY 2: ADMIN -->
+    <div class="category">
+      <div class="cat-header">
+        <div><div class="cat-name">Admin &amp; Operations</div><div class="cat-sub">Scheduling, organizing, communicating</div></div>
+        <div class="cat-count" id="count-admin">0 / 6 checked</div>
+      </div>
+      <div class="tasks-list">
+        <div class="col-headers">
+          <div class="col-h">Task</div><div class="col-h">Honest notes</div>
+          <div class="col-h center">Time saved/wk</div><div class="col-h center">AI Ready?</div>
+        </div>
+        <div class="task-row" data-id="a1" data-cat="admin" data-name="Email drafting" data-time-min="1" data-time-max="2" data-time-label="1–2 hrs" data-ready="yes" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Email drafting</span><span class="task-sub">Client responses, follow-ups, pitches</span></div>
+          <div class="task-cell"><span class="task-note">AI drafts in seconds. You approve and send.</span></div>
+          <div class="task-cell time-cell"><span class="time-yes">1–2 hrs</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-yes">Yes</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="a2" data-cat="admin" data-name="Meeting notes and summaries" data-time-min="0.5" data-time-max="1" data-time-label="30–60 min" data-ready="yes" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Meeting notes &amp; summaries</span><span class="task-sub">Recap and action items after calls</span></div>
+          <div class="task-cell"><span class="task-note">AI transcription + summary tools handle this extremely well.</span></div>
+          <div class="task-cell time-cell"><span class="time-yes">30–60 min</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-yes">Yes</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="a3" data-cat="admin" data-name="Creating SOPs and templates" data-time-min="1" data-time-max="2" data-time-label="1–2 hrs" data-ready="yes" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Creating SOPs &amp; templates</span><span class="task-sub">Process docs, checklists, repeatable systems</span></div>
+          <div class="task-cell"><span class="task-note">Describe your process, AI structures it. Big time saver.</span></div>
+          <div class="task-cell time-cell"><span class="time-yes">1–2 hrs</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-yes">Yes</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="a4" data-cat="admin" data-name="Research and fact-finding" data-time-min="1" data-time-max="2" data-time-label="1–2 hrs" data-ready="partial" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Research &amp; fact-finding</span><span class="task-sub">Market research, competitor analysis</span></div>
+          <div class="task-cell"><span class="task-note">Good starting point. Always verify with primary sources.</span></div>
+          <div class="task-cell time-cell"><span class="time-partial">1–2 hrs</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-partial">Partial</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="a5" data-cat="admin" data-name="Scheduling and calendar management" data-time-min="0.33" data-time-max="0.5" data-time-label="20–30 min" data-ready="partial" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Scheduling &amp; calendar management</span><span class="task-sub">Booking meetings, time blocking</span></div>
+          <div class="task-cell"><span class="task-note">AI scheduling tools exist but setup takes real effort.</span></div>
+          <div class="task-cell time-cell"><span class="time-partial">20–30 min</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-partial">Partial</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="a6" data-cat="admin" data-name="Financial decisions and bookkeeping" data-time-min="0" data-time-max="0" data-time-label="—" data-ready="no" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Financial decisions &amp; bookkeeping</span><span class="task-sub">Invoicing, taxes, cash flow strategy</span></div>
+          <div class="task-cell"><span class="task-note">AI can categorize and summarize — strategy is still yours.</span></div>
+          <div class="task-cell time-cell"><span class="time-no">—</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-no">Not yet</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CATEGORY 3: CLIENT -->
+    <div class="category">
+      <div class="cat-header">
+        <div><div class="cat-name">Client &amp; Customer Work</div><div class="cat-sub">Onboarding, delivery, support</div></div>
+        <div class="cat-count" id="count-client">0 / 5 checked</div>
+      </div>
+      <div class="tasks-list">
+        <div class="col-headers">
+          <div class="col-h">Task</div><div class="col-h">Honest notes</div>
+          <div class="col-h center">Time saved/wk</div><div class="col-h center">AI Ready?</div>
+        </div>
+        <div class="task-row" data-id="cl1" data-cat="client" data-name="Client onboarding documents" data-time-min="1" data-time-max="2" data-time-label="1–2 hrs" data-ready="yes" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Client onboarding documents</span><span class="task-sub">Welcome packets, questionnaires, contracts</span></div>
+          <div class="task-cell"><span class="task-note">AI builds the templates. You personalize per client.</span></div>
+          <div class="task-cell time-cell"><span class="time-yes">1–2 hrs</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-yes">Yes</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="cl2" data-cat="client" data-name="FAQ and support responses" data-time-min="1" data-time-max="3" data-time-label="1–3 hrs" data-ready="yes" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">FAQ &amp; support responses</span><span class="task-sub">Common questions, how-to guides</span></div>
+          <div class="task-cell"><span class="task-note">AI handles FAQs well. Complex issues still need you.</span></div>
+          <div class="task-cell time-cell"><span class="time-yes">1–3 hrs</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-yes">Yes</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="cl3" data-cat="client" data-name="Proposal writing" data-time-min="0.75" data-time-max="1.5" data-time-label="45–90 min" data-ready="partial" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Proposal writing</span><span class="task-sub">Scopes, pricing, service descriptions</span></div>
+          <div class="task-cell"><span class="task-note">AI does the structure. Strategy and pricing is yours.</span></div>
+          <div class="task-cell time-cell"><span class="time-partial">45–90 min</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-partial">Partial</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="cl4" data-cat="client" data-name="Progress reports and updates" data-time-min="0.5" data-time-max="1" data-time-label="30–60 min" data-ready="partial" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Progress reports &amp; updates</span><span class="task-sub">Weekly check-ins, project status emails</span></div>
+          <div class="task-cell"><span class="task-note">Give AI the bullet points, it writes the polished update.</span></div>
+          <div class="task-cell time-cell"><span class="time-partial">30–60 min</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-partial">Partial</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="cl5" data-cat="client" data-name="Strategy and consulting delivery" data-time-min="0" data-time-max="0" data-time-label="—" data-ready="no" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Strategy &amp; consulting delivery</span><span class="task-sub">Custom recommendations for clients</span></div>
+          <div class="task-cell"><span class="task-note">AI can research and support — the expertise is still yours.</span></div>
+          <div class="task-cell time-cell"><span class="time-no">—</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-no">Not yet</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CATEGORY 4: MARKETING -->
+    <div class="category">
+      <div class="cat-header">
+        <div><div class="cat-name">Marketing &amp; Growth</div><div class="cat-sub">SEO, ads, outreach, social</div></div>
+        <div class="cat-count" id="count-marketing">0 / 6 checked</div>
+      </div>
+      <div class="tasks-list">
+        <div class="col-headers">
+          <div class="col-h">Task</div><div class="col-h">Honest notes</div>
+          <div class="col-h center">Time saved/wk</div><div class="col-h center">AI Ready?</div>
+        </div>
+        <div class="task-row" data-id="m1" data-cat="marketing" data-name="Social media captions" data-time-min="1" data-time-max="2" data-time-label="1–2 hrs" data-ready="yes" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Social media captions</span><span class="task-sub">Posts, hashtags, engagement copy</span></div>
+          <div class="task-cell"><span class="task-note">One of the strongest AI use cases. Fast and repeatable.</span></div>
+          <div class="task-cell time-cell"><span class="time-yes">1–2 hrs</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-yes">Yes</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="m2" data-cat="marketing" data-name="SEO keyword research" data-time-min="1" data-time-max="2" data-time-label="1–2 hrs" data-ready="yes" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">SEO keyword research</span><span class="task-sub">Finding topics and search terms to target</span></div>
+          <div class="task-cell"><span class="task-note">AI gives a strong starting list. Verify with SEO tools.</span></div>
+          <div class="task-cell time-cell"><span class="time-yes">1–2 hrs</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-yes">Yes</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="m3" data-cat="marketing" data-name="Cold outreach messages" data-time-min="0.5" data-time-max="1" data-time-label="30–60 min" data-ready="yes" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Cold outreach messages</span><span class="task-sub">Partnership pitches, collaboration requests</span></div>
+          <div class="task-cell"><span class="task-note">AI drafts fast. Personalize before sending — always.</span></div>
+          <div class="task-cell time-cell"><span class="time-yes">30–60 min</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-yes">Yes</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="m4" data-cat="marketing" data-name="Email sequences and newsletters" data-time-min="1" data-time-max="2" data-time-label="1–2 hrs" data-ready="partial" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Email sequences &amp; newsletters</span><span class="task-sub">Welcome flows, nurture sequences</span></div>
+          <div class="task-cell"><span class="task-note">AI writes solid drafts. Your voice and strategy guide it.</span></div>
+          <div class="task-cell time-cell"><span class="time-partial">1–2 hrs</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-partial">Partial</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="m5" data-cat="marketing" data-name="Ad copywriting" data-time-min="0.5" data-time-max="1" data-time-label="30–60 min" data-ready="partial" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Ad copywriting</span><span class="task-sub">Facebook, Google, sponsored posts</span></div>
+          <div class="task-cell"><span class="task-note">Good for variations. Still needs testing and your judgment.</span></div>
+          <div class="task-cell time-cell"><span class="time-partial">30–60 min</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-partial">Partial</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+        <div class="task-row" data-id="m6" data-cat="marketing" data-name="Genuine relationship building" data-time-min="0" data-time-max="0" data-time-label="—" data-ready="no" onclick="toggleTask(this)">
+          <div class="task-cell name-cell"><span class="task-main">Genuine relationship building</span><span class="task-sub">Partnerships, referrals, community trust</span></div>
+          <div class="task-cell"><span class="task-note">AI can draft the outreach. Real trust still needs real you.</span></div>
+          <div class="task-cell time-cell"><span class="time-no">—</span></div>
+          <div class="task-cell badge-cell"><span class="badge b-no">Not yet</span></div>
+          <div class="task-cell check-cell"><div class="task-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOP 3 LIVE PANEL -->
+    <div class="top3-panel">
+      <div class="top3-label">Auto-populated from your selections</div>
+      <div class="top3-title">Your Top 3 Opportunities</div>
+      <div class="top3-sub">As you check tasks above, your highest time-saving opportunities appear here automatically — ranked by estimated hours saved per week.</div>
+      <div class="top3-rows" id="top3-rows">
+        <div class="top3-row" id="top3-1"><div class="top3-num">1</div><span class="top3-task-empty">Check tasks above to populate...</span></div>
+        <div class="top3-row" id="top3-2"><div class="top3-num">2</div><span class="top3-task-empty">Check tasks above to populate...</span></div>
+        <div class="top3-row" id="top3-3"><div class="top3-num">3</div><span class="top3-task-empty">Check tasks above to populate...</span></div>
+      </div>
+      <div class="top3-total">
+        <span class="total-label">Estimated time savings per week</span>
+        <span class="total-value" id="total-time">0 <span>hrs saved</span></span>
+      </div>
+    </div>
+
+    <button class="btn-results" onclick="showResults()">See my full results →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 3: RESULTS
+══════════════════════════════════════ -->
+<div id="screen-results" class="screen">
+  <div class="progress-bar-wrap">
+    <span class="progress-brand">Keys to AI — Your Results</span>
+    <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+    <span class="progress-count" style="color:var(--emerald);">Complete ✓</span>
+  </div>
+
+  <div class="results-wrap">
+    <div class="results-header fade-up">
+      <div class="results-eyebrow">Your AI Audit Results</div>
+      <h2 class="results-title" id="results-title">Here's where you stand.</h2>
+      <p class="results-sub" id="results-sub"></p>
+    </div>
+
+    <div class="score-display fade-up">
+      <div class="score-num" id="score-num">0</div>
+      <div class="score-of">AI-Ready tasks out of 19</div>
+      <div class="score-tier" id="score-tier">—</div>
+      <p class="score-desc" id="score-desc"></p>
+    </div>
+
+    <div class="time-highlight fade-up">
+      <div class="time-big" id="time-big">0</div>
+      <div class="time-text">
+        <div class="time-text-title" id="time-title">Estimated hours saved per week</div>
+        <div class="time-text-sub">Based on your Top 3 selections. That's <span id="time-annual">0</span> hours back in your year — time you could spend on the work only you can do.</div>
+      </div>
+    </div>
+
+    <div class="results-top3 fade-up">
+      <div class="results-top3-title">Your Top 3 Opportunities</div>
+      <div class="results-top3-sub">Start with task #1 this week. Just one. Get it working before moving to #2.</div>
+      <div id="results-top3-list"></div>
+    </div>
+
+    <div class="quick-win-result fade-up">
+      <div class="qw-label">Your personalized quick win</div>
+      <div class="qw-title" id="qw-title">Your first action</div>
+      <div class="qw-text" id="qw-text"></div>
+    </div>
+
+    <div class="mistakes fade-up">
+      <div class="mistakes-title">3 mistakes that slow solopreneurs down</div>
+      <div class="mistake"><div class="m-num">1</div><div class="m-text"><strong>Trying to automate everything at once.</strong> Start with one task, get it working, then add the next. Compounding wins beat scattered attempts every time.</div></div>
+      <div class="mistake"><div class="m-num">2</div><div class="m-text"><strong>Expecting AI to sound exactly like you on the first try.</strong> It won't. AI needs prompting, examples, and your editing to get close — but once you train it right, it gets faster every time.</div></div>
+      <div class="mistake"><div class="m-num">3</div><div class="m-text"><strong>Buying paid tools before proving the free tier works.</strong> Claude and ChatGPT free tiers are genuinely powerful. Get your first win for free before spending anything.</div></div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="plan-title">Your 30-Day Action Plan</div>
+    <div class="plan-sub">Four weeks. One task at a time. Real results.</div>
+    <div class="action-plan-list">
+      <div class="plan-step"><div class="plan-num">1</div><div class="plan-content"><div class="plan-step-title">Week 1 — Pick one task and prove it works</div><div class="plan-step-desc">Choose task #1 from your Top 3. Use AI for that task only — nothing else. Track how long it takes before and after so you have a real number.</div><div class="plan-tip">Don't add new tools. Use the free tier of Claude or ChatGPT. You don't need to spend money to get your first win.</div></div></div>
+      <div class="plan-step"><div class="plan-num">2</div><div class="plan-content"><div class="plan-step-title">Week 2 — Build a repeatable process</div><div class="plan-step-desc">Once the first task works, write down the prompt you used and the steps you followed. Turn it into a simple checklist you can repeat every week without thinking.</div><div class="plan-tip">A prompt that worked once will work every time if you save it. Start a simple doc with your best prompts — this becomes your personal AI playbook.</div></div></div>
+      <div class="plan-step"><div class="plan-num">3</div><div class="plan-content"><div class="plan-step-title">Week 3 — Add your second task</div><div class="plan-step-desc">Now that the first task runs consistently, add task #2 from your Top 3. Apply the same process. At this point you have a two-part system saving real hours every week.</div><div class="plan-tip">Two AI-handled tasks per week = compounding time savings. Most solopreneurs stop at one. Don't be most solopreneurs.</div></div></div>
+      <div class="plan-step"><div class="plan-num">4</div><div class="plan-content"><div class="plan-step-title">Week 4 — Review and expand</div><div class="plan-step-desc">Look back at your audit. Which tasks that were "Partial" feel more manageable now? What's moved from "Not yet" to "worth trying"? Set your next 30-day target.</div><div class="plan-tip">Your AI skills improve fast. Tasks that felt intimidating at the start of this month will feel routine by the end of it.</div></div></div>
+    </div>
+
+    <div class="revisit fade-up">
+      <div class="revisit-icon">📅</div>
+      <div>
+        <div class="revisit-title">Set a reminder — 90 days from today</div>
+        <div class="revisit-text">AI tools improve every quarter. <strong>What's "Not yet" today could be your biggest time-saver next quarter.</strong> Come back and re-run this audit every 90 days. You'll be surprised how much moves into the "Yes" column.</div>
+      </div>
+    </div>
+
+    <!-- EMAIL CAPTURE -->
+    <div class="email-capture fade-up">
+      <div class="ec-label">Get your results delivered</div>
+      <h3 class="ec-title">Save your action plan + get weekly AI workflows</h3>
+      <p class="ec-sub">Enter your email and we'll send your personalized results plus Simone's weekly AI workflow — one practical system every week, built for solopreneurs.</p>
+      <div class="ec-form">
+        <input type="text" class="ec-input" placeholder="Your first name" id="ec-name">
+        <input type="email" class="ec-input" placeholder="Your email address" id="ec-email">
+        <button class="ec-btn" onclick="submitEmail()">Send me my results + weekly workflows</button>
+      </div>
+      <p class="ec-note">No spam. Unsubscribe anytime. Simone sends one email per week.</p>
+    </div>
+
+    <div class="channel-cta fade-up">
+      <div class="cc-title">Ready to build your first workflow?</div>
+      <div class="cc-text">Every week Simone publishes a new step-by-step tutorial on the Keys to AI YouTube channel — practical systems built for one-person businesses. No hype, no theory, just workflows that work.</div>
+      <div class="cc-links">
+        <a class="cc-link" href="https://youtube.com/@KeystoAIOfficial" target="_blank">📺 YouTube →</a>
+        <a class="cc-link" href="https://instagram.com/keystoaiofficial" target="_blank">📱 Instagram →</a>
+        <a class="cc-link" href="https://keysto.ai" target="_blank">🌐 keysto.ai →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="site-footer">
+    <div><div class="sf-brand">Keys to AI</div><div class="sf-sub">keysto.ai · @KeystoAIOfficial</div></div>
+    <div><a class="sf-link" href="https://keysto.ai">keysto.ai</a></div>
+  </div>
+</div>
+
+<script>
+// ── STATE
+const checked = new Set();
+const taskData = {};
+const catCounts = {content:0,admin:0,client:0,marketing:0};
+const catTotals = {content:6,admin:6,client:5,marketing:6};
+const TOTAL_TASKS = 19;
+
+// ── INIT
+document.querySelectorAll('.task-row').forEach(row => {
+  const id = row.dataset.id;
+  taskData[id] = {
+    name: row.dataset.name,
+    cat: row.dataset.cat,
+    timeMin: parseFloat(row.dataset.timeMin),
+    timeMax: parseFloat(row.dataset.timeMax),
+    timeLabel: row.dataset.timeLabel,
+    ready: row.dataset.ready
+  };
+});
+
+function startAudit(){
+  document.getElementById('screen-landing').classList.remove('active');
+  document.getElementById('screen-audit').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function toggleTask(row){
+  const id = row.dataset.id;
+  const cat = row.dataset.cat;
+  if(checked.has(id)){
+    checked.delete(id);
+    row.classList.remove('checked');
+    catCounts[cat]--;
+  } else {
+    checked.add(id);
+    row.classList.add('checked');
+    catCounts[cat]++;
+  }
+  updateProgress();
+  updateCatCounts();
+  updateTop3();
+}
+
+function updateProgress(){
+  const pct = (checked.size / TOTAL_TASKS) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-count').textContent = checked.size + ' / ' + TOTAL_TASKS;
+}
+
+function updateCatCounts(){
+  Object.keys(catCounts).forEach(cat => {
+    const el = document.getElementById('count-' + cat);
+    if(el) el.textContent = catCounts[cat] + ' / ' + catTotals[cat] + ' checked';
+  });
+}
+
+function updateTop3(){
+  // Get checked tasks sorted by avg time savings desc
+  const sorted = Array.from(checked)
+    .map(id => ({id, ...taskData[id]}))
+    .filter(t => t.timeMax > 0)
+    .sort((a,b) => (b.timeMin+b.timeMax) - (a.timeMin+a.timeMax));
+
+  const top3 = sorted.slice(0,3);
+
+  // Update rows
+  [1,2,3].forEach(i => {
+    const row = document.getElementById('top3-' + i);
+    const task = top3[i-1];
+    row.innerHTML = '';
+    const num = document.createElement('div');
+    num.className = 'top3-num';
+    num.textContent = i;
+    row.appendChild(num);
+    if(task){
+      row.classList.add('filled');
+      const name = document.createElement('span');
+      name.className = 'top3-task-name';
+      name.textContent = task.name;
+      const time = document.createElement('span');
+      time.className = 'top3-task-time';
+      time.textContent = task.timeLabel + '/wk';
+      row.appendChild(name);
+      row.appendChild(time);
+    } else {
+      row.classList.remove('filled');
+      const empty = document.createElement('span');
+      empty.className = 'top3-task-empty';
+      empty.textContent = i === 1 ? 'Check tasks above to populate...' : 'Keep checking tasks...';
+      row.appendChild(empty);
+    }
+  });
+
+  // Total time
+  const totalMin = top3.reduce((s,t) => s + t.timeMin, 0);
+  const totalMax = top3.reduce((s,t) => s + t.timeMax, 0);
+  const totalEl = document.getElementById('total-time');
+  if(top3.length > 0){
+    totalEl.innerHTML = Math.round(totalMin) + '–' + Math.round(totalMax) + ' <span>hrs saved</span>';
+  } else {
+    totalEl.innerHTML = '0 <span>hrs saved</span>';
+  }
+}
+
+function getQuickWin(topTasks, checkedIds){
+  // Personalized quick win based on top task category
+  if(!topTasks || topTasks.length === 0){
+    return {
+      title: 'Start with one email this week',
+      text: 'Pick one email you send regularly — a client update, a follow-up, a common reply. Use Claude or ChatGPT free tier to draft it. Review, adjust, send. You just got 10 minutes back. That\'s your proof of concept.'
+    };
+  }
+  const top = topTasks[0];
+  if(top.name.includes('content') || top.name.includes('caption') || top.name.includes('draft') || top.name.includes('Repurpos') || top.name.includes('Brainstorm')){
+    return {
+      title: 'Write 5 social captions right now',
+      text: 'Open Claude or ChatGPT free tier. Tell it your niche, your audience, and ask for 5 social media captions for this week. Time yourself. Compare that to how long you\'d normally spend. That gap is your proof of concept — and your first real win.'
+    };
+  }
+  if(top.name.includes('FAQ') || top.name.includes('onboard') || top.name.includes('Proposal') || top.name.includes('Progress')){
+    return {
+      title: 'Draft your next client reply with AI',
+      text: 'Next time a client asks a question you\'ve answered before, paste it into Claude or ChatGPT and ask for a draft reply in your tone. Review it, personalize it, send it. You just reclaimed 10–15 minutes — and that adds up to hours every week.'
+    };
+  }
+  if(top.name.includes('Email') || top.name.includes('outreach') || top.name.includes('SEO')){
+    return {
+      title: 'Let AI write your next outreach message',
+      text: 'Think of one partnership, collaboration, or connection you\'ve been meaning to reach out to. Describe who they are and what you want to say to Claude or ChatGPT. Get a draft in 30 seconds. Personalize it in 5 minutes. Send it today. That\'s an hour of overthinking you just eliminated.'
+    };
+  }
+  return {
+    title: 'Start with your most time-consuming task',
+    text: 'Take task #1 from your Top 3 and spend 20 minutes today trying it with AI. Don\'t aim for perfect — aim for "does this save me time?" If the answer is yes, you have your starting point. Build from there.'
+  };
+}
+
+function showResults(){
+  // Calculate score — count "yes" tasks only
+  let yesScore = 0;
+  checked.forEach(id => {
+    if(taskData[id].ready === 'yes') yesScore++;
+  });
+
+  const totalChecked = checked.size;
+
+  // Tier
+  let tier, tierDesc, resultsTitle, resultsSub;
+  if(yesScore <= 5){
+    tier = 'Just Getting Started';
+    tierDesc = 'That\'s completely fine. You don\'t need a full AI operation on day one. Pick the single highest-impact task from your Top 3 and prove it works this week. One win is all you need right now.';
+    resultsTitle = 'You\'re at the starting line — and that\'s a good place to be.';
+    resultsSub = 'Most solopreneurs have more AI-ready tasks than they realize. You\'ve identified ' + totalChecked + ' tasks worth testing. Start with one.';
+  } else if(yesScore <= 12){
+    tier = 'Good Foundation';
+    tierDesc = 'You\'ve got real opportunities sitting right in front of you. Work through your Top 3 over the next 30 days and you\'ll have a system — not just a tool you use occasionally.';
+    resultsTitle = 'You have more ready than you think.';
+    resultsSub = 'With ' + yesScore + ' AI-Ready tasks identified, you\'re sitting on significant time savings. The difference between solopreneurs who benefit from AI and those who don\'t is follow-through — not knowledge.';
+  } else {
+    tier = 'Ready to Build';
+    tierDesc = 'You\'re not just dipping a toe in — you\'re ready for a real system. Stop using AI tools one-off and start connecting them into a workflow that runs every week without you having to think about it.';
+    resultsTitle = 'You\'re ready for a real AI system.';
+    resultsSub = 'With ' + yesScore + ' AI-Ready tasks identified, you have everything you need to build a connected workflow that saves you serious time every week. The question isn\'t whether AI can help you — it\'s which task you\'re starting with today.';
+  }
+
+  // Top 3
+  const sorted = Array.from(checked)
+    .map(id => ({id, ...taskData[id]}))
+    .filter(t => t.timeMax > 0)
+    .sort((a,b) => (b.timeMin+b.timeMax) - (a.timeMin+a.timeMax))
+    .slice(0,3);
+
+  const totalMin = sorted.reduce((s,t) => s + t.timeMin, 0);
+  const totalMax = sorted.reduce((s,t) => s + t.timeMax, 0);
+  const avgTotal = ((totalMin + totalMax) / 2);
+  const annualHrs = Math.round(avgTotal * 52);
+
+  const qw = getQuickWin(sorted, checked);
+
+  // Populate results screen
+  document.getElementById('results-title').textContent = resultsTitle;
+  document.getElementById('results-sub').textContent = resultsSub;
+  document.getElementById('score-num').textContent = yesScore;
+  document.getElementById('score-tier').textContent = tier;
+  document.getElementById('score-desc').textContent = tierDesc;
+  document.getElementById('time-big').textContent = Math.round(totalMin) + '–' + Math.round(totalMax);
+  document.getElementById('time-annual').textContent = annualHrs;
+  document.getElementById('qw-title').textContent = qw.title;
+  document.getElementById('qw-text').textContent = qw.text;
+
+  // Top 3 list
+  const top3List = document.getElementById('results-top3-list');
+  top3List.innerHTML = '';
+  if(sorted.length === 0){
+    top3List.innerHTML = '<p style="color:var(--text-muted);font-size:14px;font-style:italic;">Go back and check the tasks you handle manually to see your top opportunities.</p>';
+  } else {
+    sorted.forEach((task, i) => {
+      top3List.innerHTML += `
+        <div class="r-top3-row">
+          <div class="r-top3-num">${i+1}</div>
+          <div class="r-top3-name">${task.name}</div>
+          <div class="r-top3-time">${task.timeLabel}/wk</div>
+        </div>`;
+    });
+  }
+
+  // Switch screens
+  document.getElementById('screen-audit').classList.remove('active');
+  document.getElementById('screen-results').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function submitEmail(){
+  const name = document.getElementById('ec-name').value.trim();
+  const email = document.getElementById('ec-email').value.trim();
+  if(!email || !email.includes('@')){
+    alert('Please enter a valid email address.');
+    return;
+  }
+  // Replace this with your actual email platform integration (MailerLite, ConvertKit, etc.)
+  const btn = document.querySelector('.ec-btn');
+  btn.textContent = '✓ You\'re on the list — check your inbox!';
+  btn.style.background = 'var(--emerald)';
+  btn.disabled = true;
+  document.getElementById('ec-name').disabled = true;
+  document.getElementById('ec-email').disabled = true;
+}
+</script>
+</body>
+</html>

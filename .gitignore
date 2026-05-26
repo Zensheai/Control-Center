@@ -1,0 +1,13 @@
+.next/
+node_modules/
+.vercel/
+.env
+.env.local
+.env.production
+dist/
+coverage/
+*.tsbuildinfo
+
+.vercel
+.deploy-keysto-repo/
+.publish-keysto-site/

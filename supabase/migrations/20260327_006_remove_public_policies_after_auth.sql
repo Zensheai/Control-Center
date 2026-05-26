@@ -1,0 +1,10 @@
+drop policy if exists "public can read content_items" on public.content_items;
+drop policy if exists "public can read trending_topics" on public.trending_topics;
+drop policy if exists "public can read calendar_entries" on public.calendar_entries;
+drop policy if exists "public can read transactions" on public.transactions;
+drop policy if exists "public can read inbox_items" on public.inbox_items;
+drop policy if exists "public can insert content_items" on public.content_items;
+drop policy if exists "public can insert transactions" on public.transactions;
+drop policy if exists "public can update content_items" on public.content_items;
+drop policy if exists "public can insert content_checkpoints" on public.content_checkpoints;
+drop policy if exists "public can insert calendar_entries" on public.calendar_entries;

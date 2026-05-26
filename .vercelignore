@@ -1,0 +1,6 @@
+.deploy-keysto-repo/
+.publish-keysto-site/
+.next/
+node_modules/
+coverage/
+*.tsbuildinfo
