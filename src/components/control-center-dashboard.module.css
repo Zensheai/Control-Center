@@ -1,0 +1,937 @@
+.shell {
+  --ink: #0d1b2a;
+  --paper: #f5f0e6;
+  --cream: #fffaf1;
+  --green: #1a6b4a;
+  --green-bright: #44d29a;
+  --gold: #d6a84f;
+  --orange: #c4603a;
+  --muted: #6d726f;
+  display: grid;
+  grid-template-columns: 252px minmax(0, 1fr);
+  min-height: 100vh;
+  overflow: visible;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  overflow: auto;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(68, 210, 154, 0.16), transparent 19rem),
+    #0b1925;
+  color: white;
+  padding: 30px 22px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 44px;
+}
+
+.brandMark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  place-items: center;
+  border: 1px solid rgba(214, 168, 79, 0.5);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.brand strong,
+.brand small {
+  display: block;
+}
+
+.brand strong {
+  font-size: 0.94rem;
+}
+
+.brand small {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.navigation {
+  display: grid;
+  gap: 6px;
+}
+
+.navigation button {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  align-items: center;
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.66);
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 750;
+  text-align: left;
+  cursor: pointer;
+  transition: 180ms ease;
+}
+
+.navigation button span {
+  color: rgba(214, 168, 79, 0.58);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+}
+
+.navigation button:hover,
+.navigation .activeNav {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.navigation .activeNav {
+  box-shadow: inset 3px 0 0 var(--green-bright);
+}
+
+.sidebarFooter {
+  display: grid;
+  gap: 7px;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 22px;
+}
+
+.sidebarFooter small {
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.72rem;
+  text-overflow: ellipsis;
+}
+
+.sidebarFooter :global(.button) {
+  min-height: 38px;
+  margin-top: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.72);
+  padding: 0 14px;
+  font-size: 0.78rem;
+}
+
+.liveDot {
+  color: var(--green-bright);
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.liveDot::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--green-bright);
+  box-shadow: 0 0 12px rgba(68, 210, 154, 0.7);
+}
+
+.workspace {
+  min-width: 0;
+  background:
+    radial-gradient(circle at 92% 3%, rgba(214, 168, 79, 0.14), transparent 25rem),
+    linear-gradient(180deg, #f8f3ea, var(--paper));
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  min-height: 92px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid rgba(13, 27, 42, 0.1);
+  background: rgba(248, 243, 234, 0.88);
+  padding: 20px clamp(24px, 4vw, 58px);
+  backdrop-filter: blur(18px);
+}
+
+.topbar p {
+  margin: 0 0 5px;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.55rem;
+  font-weight: 600;
+}
+
+.topbarActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbarActions button,
+.topbarActions a,
+.panelHeading button {
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: white;
+  padding: 11px 16px;
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.topbarActions a {
+  border: 1px solid rgba(13, 27, 42, 0.12);
+  background: transparent;
+  color: var(--ink);
+}
+
+.errorBanner {
+  margin: 22px clamp(24px, 4vw, 58px) 0;
+  border: 1px solid rgba(196, 96, 58, 0.24);
+  border-radius: 14px;
+  background: rgba(196, 96, 58, 0.08);
+  color: #8b3e25;
+  padding: 13px 16px;
+  font-size: 0.82rem;
+}
+
+.page {
+  display: grid;
+  gap: 30px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(28px, 4vw, 58px);
+}
+
+.intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 30px;
+  align-items: end;
+  padding: 8px 0 10px;
+}
+
+.intro h2,
+.sectionIntro h2 {
+  max-width: 720px;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.2rem, 4.4vw, 4.5rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.94;
+}
+
+.intro > div > p:last-child,
+.sectionIntro > p:last-child {
+  max-width: 620px;
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.65;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: var(--green);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dateCard {
+  display: grid;
+  min-width: 210px;
+  gap: 6px;
+  border-left: 1px solid rgba(13, 27, 42, 0.15);
+  padding: 8px 0 8px 24px;
+}
+
+.dateCard span {
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.dateCard strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.metricGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid rgba(13, 27, 42, 0.1);
+  border-radius: 22px;
+  background: rgba(255, 250, 241, 0.72);
+  box-shadow: 0 18px 50px rgba(13, 27, 42, 0.06);
+}
+
+.metricGrid article {
+  display: grid;
+  min-height: 154px;
+  align-content: space-between;
+  border-right: 1px solid rgba(13, 27, 42, 0.09);
+  padding: 24px;
+}
+
+.metricGrid article:last-child {
+  border-right: 0;
+}
+
+.metricGrid span,
+.financeSummary span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.metricGrid strong,
+.financeSummary strong {
+  margin: 14px 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 3.2vw, 3.25rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.metricGrid small {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.negative {
+  color: var(--orange);
+}
+
+.todayGrid,
+.splitGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.panel,
+.componentSurface,
+.trendCard,
+.financeSummary article {
+  border: 1px solid rgba(13, 27, 42, 0.1);
+  border-radius: 22px;
+  background: rgba(255, 250, 241, 0.74);
+  box-shadow: 0 16px 45px rgba(13, 27, 42, 0.055);
+}
+
+.panel {
+  padding: 24px;
+}
+
+.widePanel {
+  grid-column: 1 / -1;
+}
+
+.panelHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.panelHeading h3,
+.trendCard h3,
+.componentSurface :global(h2) {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.panelHeading .eyebrow {
+  margin-bottom: 8px;
+}
+
+.panelHeading button {
+  background: transparent;
+  color: var(--green);
+  padding: 6px;
+}
+
+.stackList {
+  display: grid;
+}
+
+.stackRow,
+.inboxRow,
+.transactionRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  border-top: 1px solid rgba(13, 27, 42, 0.08);
+  padding: 16px 0;
+}
+
+.stackRow:first-child,
+.inboxRow:first-child,
+.transactionRow:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.stackRow strong,
+.stackRow small,
+.inboxRow strong,
+.inboxRow small,
+.transactionRow strong,
+.transactionRow small {
+  display: block;
+}
+
+.stackRow strong,
+.inboxRow strong,
+.transactionRow strong {
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.stackRow small,
+.inboxRow small,
+.transactionRow small {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.status,
+.inboxRow > span {
+  border-radius: 999px;
+  background: rgba(26, 107, 74, 0.09);
+  color: var(--green);
+  padding: 6px 9px;
+  font-size: 0.64rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.dateTile {
+  width: 62px;
+  color: var(--orange);
+  font-size: 0.7rem;
+  font-weight: 850;
+}
+
+.signalGrid,
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.signalGrid article {
+  display: grid;
+  min-height: 150px;
+  gap: 13px;
+  align-content: space-between;
+  border-radius: 16px;
+  background: var(--ink);
+  color: white;
+  padding: 18px;
+}
+
+.signalGrid span,
+.trendCard > div span {
+  color: var(--green-bright);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.signalGrid strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.03rem;
+  line-height: 1.25;
+}
+
+.signalGrid small {
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.68rem;
+}
+
+.sectionIntro {
+  padding: 6px 0 16px;
+}
+
+.componentSurface {
+  padding: 26px;
+}
+
+.componentSurface :global(.section-card) {
+  background: transparent;
+}
+
+.componentSurface :global(.meta) {
+  margin: 0 0 8px;
+  color: var(--green);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.componentSurface :global(.pipeline-header) {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.componentSurface :global(.pipeline-board) {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(170px, 1fr));
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.componentSurface :global(.pipeline-column) {
+  min-height: 250px;
+  border-radius: 15px;
+  background: rgba(13, 27, 42, 0.045);
+  padding: 13px;
+}
+
+.componentSurface :global(.pipeline-column-header) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.componentSurface :global(.pipeline-stack) {
+  display: grid;
+  gap: 10px;
+}
+
+.componentSurface :global(.pipeline-item) {
+  border: 1px solid rgba(13, 27, 42, 0.09);
+  border-radius: 12px;
+  background: var(--cream);
+  padding: 13px;
+  box-shadow: 0 8px 20px rgba(13, 27, 42, 0.05);
+}
+
+.componentSurface :global(.pipeline-item > strong) {
+  display: block;
+  font-size: 0.82rem;
+  line-height: 1.3;
+}
+
+.componentSurface :global(.pill-row),
+.componentSurface :global(.mini-actions) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.componentSurface :global(.pill) {
+  border-radius: 999px;
+  background: rgba(26, 107, 74, 0.09);
+  color: var(--green);
+  padding: 4px 7px;
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+.componentSurface :global(.pipeline-empty) {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.componentSurface :global(.quick-add-grid),
+.componentSurface :global(.inline-grid) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.componentSurface :global(.quick-form) {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.componentSurface :global(.field-label) {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.componentSurface :global(.field-input) {
+  width: 100%;
+  border: 1px solid rgba(13, 27, 42, 0.13);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink);
+  padding: 11px 12px;
+  font: inherit;
+  font-size: 0.82rem;
+}
+
+.componentSurface :global(.field-textarea) {
+  min-height: 86px;
+  resize: vertical;
+}
+
+.componentSurface :global(.button) {
+  width: fit-content;
+  min-height: 40px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--green);
+  color: white;
+  padding: 0 16px;
+  font-size: 0.74rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.componentSurface :global(.button.secondary) {
+  border: 1px solid rgba(13, 27, 42, 0.12);
+  background: transparent;
+  color: var(--ink);
+}
+
+.componentSurface :global(.mini-button) {
+  min-height: 30px;
+  padding: 0 9px;
+  font-size: 0.64rem;
+}
+
+.componentSurface :global(.form-message) {
+  color: var(--green);
+  font-size: 0.76rem;
+}
+
+.componentSurface :global(.form-message.error) {
+  color: var(--orange);
+}
+
+.cardGrid {
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+}
+
+.trendCard {
+  display: grid;
+  min-height: 275px;
+  align-content: start;
+  padding: 22px;
+}
+
+.trendCard > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.trendCard > div small,
+.trendCard p {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.trendCard h3 {
+  margin-top: 24px;
+  line-height: 1.2;
+}
+
+.trendCard p {
+  line-height: 1.55;
+}
+
+.trendCard dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: auto 0 18px;
+}
+
+.trendCard dl div {
+  display: grid;
+  gap: 4px;
+}
+
+.trendCard dt {
+  color: var(--muted);
+  font-size: 0.58rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.trendCard dd {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.trendCard a {
+  color: var(--green);
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.timeline {
+  display: grid;
+}
+
+.timeline > div {
+  display: grid;
+  grid-template-columns: 100px 10px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.timeline time {
+  color: var(--muted);
+  padding-top: 2px;
+  font-size: 0.67rem;
+  text-align: right;
+}
+
+.timeline > div > span {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.timeline > div > span::after {
+  content: "";
+  position: absolute;
+  top: 11px;
+  bottom: -48px;
+  left: 3px;
+  width: 1px;
+  background: rgba(13, 27, 42, 0.12);
+}
+
+.timeline > div:last-child > span::after {
+  display: none;
+}
+
+.timeline section {
+  display: grid;
+  gap: 5px;
+  padding-bottom: 27px;
+}
+
+.timeline section strong {
+  font-size: 0.86rem;
+}
+
+.timeline section small {
+  color: var(--muted);
+  font-size: 0.69rem;
+}
+
+.inboxRow p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.financeSummary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.financeSummary article {
+  display: grid;
+  padding: 24px;
+}
+
+.transactionRow > span {
+  min-width: 90px;
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.revenue {
+  color: var(--green);
+}
+
+.expense {
+  color: var(--orange);
+}
+
+.empty {
+  grid-column: 1 / -1;
+  border: 1px dashed rgba(13, 27, 42, 0.16);
+  border-radius: 14px;
+  color: var(--muted);
+  padding: 24px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (max-width: 1080px) {
+  .shell {
+    grid-template-columns: 205px minmax(0, 1fr);
+  }
+
+  .sidebar {
+    padding: 24px 15px;
+  }
+
+  .metricGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .metricGrid article:nth-child(2) {
+    border-right: 0;
+  }
+
+  .metricGrid article:nth-child(-n + 2) {
+    border-bottom: 1px solid rgba(13, 27, 42, 0.09);
+  }
+
+  .signalGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .shell {
+    display: block;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    padding: 18px;
+  }
+
+  .brand {
+    margin-bottom: 18px;
+  }
+
+  .navigation {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+
+  .navigation::-webkit-scrollbar {
+    display: none;
+  }
+
+  .navigation button {
+    display: flex;
+    width: auto;
+    flex: 0 0 auto;
+    gap: 7px;
+    white-space: nowrap;
+  }
+
+  .sidebarFooter {
+    display: none;
+  }
+
+  .topbar {
+    position: static;
+    min-height: 76px;
+    padding: 16px 18px;
+  }
+
+  .topbarActions a {
+    display: none;
+  }
+
+  .page {
+    padding: 26px 18px 44px;
+  }
+
+  .intro,
+  .todayGrid,
+  .splitGrid,
+  .financeSummary {
+    grid-template-columns: 1fr;
+  }
+
+  .dateCard {
+    border-top: 1px solid rgba(13, 27, 42, 0.15);
+    border-left: 0;
+    padding: 16px 0 0;
+  }
+
+  .metricGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .metricGrid article,
+  .metricGrid article:nth-child(2) {
+    min-height: 125px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(13, 27, 42, 0.09);
+  }
+
+  .componentSurface {
+    padding: 18px;
+  }
+
+  .componentSurface :global(.quick-add-grid),
+  .componentSurface :global(.inline-grid) {
+    grid-template-columns: 1fr;
+  }
+}

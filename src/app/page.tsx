@@ -141,6 +141,7 @@ export default function HomePage() {
           <a href="#resources">Resources</a>
           <a href="#newsletter">Newsletter</a>
           <a href="#tutorials">YouTube</a>
+          <a href="/control-center">Control Center</a>
         </nav>
         <a className="nav-cta" href="#tutorials">
           Watch

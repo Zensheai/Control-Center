@@ -31,7 +31,7 @@ export async function getDashboardData() {
         .from("transactions")
         .select("id,transaction_type,category,amount,currency_code,transaction_date,description")
         .order("transaction_date", { ascending: false })
-        .limit(6),
+        .limit(250),
       supabase
         .from("inbox_items")
         .select("id,inbox_type,title,body,status,created_at")
@@ -51,6 +51,6 @@ export async function getDashboardData() {
       calendarResult.error,
       transactionsResult.error,
       inboxResult.error
-    ].filter(Boolean)
+    ].filter((error): error is NonNullable<typeof error> => error !== null)
   };
 }
