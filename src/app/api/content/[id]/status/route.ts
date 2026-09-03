@@ -20,9 +20,14 @@ export async function POST(request: Request, { params }: Params) {
     return NextResponse.json({ error: fetchError.message }, { status: 500 });
   }
 
+  const updates: Record<string, unknown> = { status: body.status };
+  if (body.status === "published") {
+    updates.published_at = body.published_at ?? new Date().toISOString();
+  }
+
   const { data, error } = await supabase
     .from("content_items")
-    .update({ status: body.status })
+    .update(updates)
     .eq("id", id)
     .select()
     .single();

@@ -23,8 +23,11 @@ export type ContentItem = {
   priority: number;
   description: string | null;
   hook: string | null;
+  script_url: string | null;
+  asset_folder_url: string | null;
   scheduled_for: string | null;
   published_at: string | null;
+  youtube_video_id: string | null;
   source_channel: string;
   created_at: string;
 };
@@ -44,11 +47,14 @@ export type TrendingTopic = {
 
 export type CalendarEntry = {
   id: string;
+  content_item_id: string | null;
   title: string;
   entry_type: string;
   starts_at: string;
   ends_at: string | null;
+  all_day: boolean;
   status: string;
+  notes: string | null;
 };
 
 export type Transaction = {

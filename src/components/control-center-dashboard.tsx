@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type {
   CalendarEntry,
   ContentItem,
@@ -78,7 +79,33 @@ export function ControlCenterDashboard({
   data: DashboardData;
   userEmail: string;
 }) {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<DashboardTab>("today");
+  const [promotingTrendId, setPromotingTrendId] = useState<string | null>(null);
+  const [trendActionMessage, setTrendActionMessage] = useState("");
+
+  async function promoteTrend(trend: TrendingTopic) {
+    setPromotingTrendId(trend.id);
+    setTrendActionMessage("");
+
+    const response = await fetch(`/api/trends/${trend.id}/promote`, {
+      method: "POST"
+    });
+
+    if (!response.ok) {
+      const result = (await response.json().catch(() => null)) as
+        | { error?: string }
+        | null;
+      setTrendActionMessage(result?.error ?? "That trend could not be promoted.");
+      setPromotingTrendId(null);
+      return;
+    }
+
+    setTrendActionMessage(`“${trend.title}” is now an idea in your pipeline.`);
+    setPromotingTrendId(null);
+    setActiveTab("pipeline");
+    router.refresh();
+  }
 
   const metrics = useMemo(() => {
     const now = new Date();
@@ -324,6 +351,11 @@ export function ControlCenterDashboard({
               <p>Review emerging topics and promote the strongest ones into your pipeline.</p>
             </section>
             <section className={styles.cardGrid}>
+              {trendActionMessage ? (
+                <p className={styles.actionMessage} role="status">
+                  {trendActionMessage}
+                </p>
+              ) : null}
               {data.trends.map((trend) => (
                 <article className={styles.trendCard} key={trend.id}>
                   <div>
@@ -337,11 +369,20 @@ export function ControlCenterDashboard({
                     <div><dt>Likes</dt><dd>{formatCompact(trend.engagement_likes)}</dd></div>
                     <div><dt>Published</dt><dd>{trend.published_at ? formatDate(trend.published_at) : "—"}</dd></div>
                   </dl>
-                  {trend.topic_url ? (
-                    <a href={trend.topic_url} rel="noreferrer" target="_blank">
-                      Review source ↗
-                    </a>
-                  ) : null}
+                  <div className={styles.trendActions}>
+                    {trend.topic_url ? (
+                      <a href={trend.topic_url} rel="noreferrer" target="_blank">
+                        Review source ↗
+                      </a>
+                    ) : null}
+                    <button
+                      disabled={promotingTrendId !== null}
+                      onClick={() => promoteTrend(trend)}
+                      type="button"
+                    >
+                      {promotingTrendId === trend.id ? "Creating..." : "+ Create content"}
+                    </button>
+                  </div>
                 </article>
               ))}
             </section>

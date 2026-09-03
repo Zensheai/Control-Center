@@ -14,9 +14,9 @@ export async function getDashboardData() {
     await Promise.all([
       supabase
         .from("content_items")
-        .select("id,title,content_type,status,priority,description,hook,scheduled_for,published_at,source_channel,created_at")
+        .select("id,title,content_type,status,priority,description,hook,script_url,asset_folder_url,scheduled_for,published_at,youtube_video_id,source_channel,created_at")
         .order("created_at", { ascending: false })
-        .limit(8),
+        .limit(100),
       supabase
         .from("trending_topics")
         .select("id,title,platform,topic_url,source_channel,published_at,fetched_at,engagement_views,engagement_likes,keyword_context")
@@ -24,9 +24,9 @@ export async function getDashboardData() {
         .limit(6),
       supabase
         .from("calendar_entries")
-        .select("id,title,entry_type,starts_at,ends_at,status")
+        .select("id,content_item_id,title,entry_type,starts_at,ends_at,all_day,status,notes")
         .order("starts_at", { ascending: true })
-        .limit(6),
+        .limit(100),
       supabase
         .from("transactions")
         .select("id,transaction_type,category,amount,currency_code,transaction_date,description")

@@ -27,20 +27,32 @@ export async function PATCH(request: Request, { params }: Params) {
   const body = await request.json();
   const supabase = await createSupabaseServerClient();
 
+  const allowedFields = [
+    "title",
+    "content_type",
+    "status",
+    "priority",
+    "description",
+    "hook",
+    "script_url",
+    "asset_folder_url",
+    "scheduled_for",
+    "published_at",
+    "youtube_video_id"
+  ] as const;
+  const updates: Record<string, unknown> = {};
+
+  allowedFields.forEach((field) => {
+    if (body[field] !== undefined) updates[field] = body[field];
+  });
+
+  if (Object.keys(updates).length === 0) {
+    return NextResponse.json({ error: "No supported changes were provided." }, { status: 400 });
+  }
+
   const { data, error } = await supabase
     .from("content_items")
-    .update({
-      title: body.title,
-      content_type: body.content_type,
-      status: body.status,
-      priority: body.priority,
-      description: body.description,
-      hook: body.hook,
-      script_url: body.script_url,
-      asset_folder_url: body.asset_folder_url,
-      scheduled_for: body.scheduled_for,
-      published_at: body.published_at
-    })
+    .update(updates)
     .eq("id", id)
     .select()
     .single();

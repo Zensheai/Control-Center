@@ -1,5 +1,6 @@
 .shell {
   --ink: #0d1b2a;
+  --navy: #0b1925;
   --paper: #f5f0e6;
   --cream: #fffaf1;
   --green: #1a6b4a;
@@ -527,7 +528,7 @@
 
 .componentSurface :global(.pipeline-board) {
   display: grid;
-  grid-template-columns: repeat(5, minmax(170px, 1fr));
+  grid-template-columns: repeat(6, minmax(185px, 1fr));
   gap: 12px;
   overflow-x: auto;
   padding-bottom: 8px;
@@ -566,6 +567,21 @@
   display: block;
   font-size: 0.82rem;
   line-height: 1.3;
+}
+
+.componentSurface :global(.pipeline-detail) {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.67rem;
+  line-height: 1.45;
+}
+
+.componentSurface :global(.video-link) {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--green);
+  font-size: 0.7rem;
+  font-weight: 850;
 }
 
 .componentSurface :global(.pill-row),
@@ -653,6 +669,35 @@
   font-size: 0.64rem;
 }
 
+.componentSurface :global(.pipeline-editor) {
+  display: grid;
+  gap: 11px;
+  margin-top: 14px;
+  border-top: 1px solid rgba(13, 27, 42, 0.1);
+  padding-top: 14px;
+}
+
+.componentSurface :global(.editor-grid) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.componentSurface :global(.editor-actions) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.componentSurface :global(.schedule-button) {
+  background: var(--navy);
+}
+
+.componentSurface :global(.publish-button) {
+  background: var(--gold);
+  color: var(--navy);
+}
+
 .componentSurface :global(.form-message) {
   color: var(--green);
   font-size: 0.76rem;
@@ -723,6 +768,41 @@
   color: var(--green);
   font-size: 0.75rem;
   font-weight: 900;
+}
+
+.trendActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.trendActions button {
+  min-height: 34px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--green);
+  color: white;
+  padding: 0 13px;
+  font-size: 0.68rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.trendActions button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.actionMessage {
+  grid-column: 1 / -1;
+  margin: 0;
+  border-radius: 12px;
+  background: rgba(26, 107, 74, 0.09);
+  color: var(--green);
+  padding: 12px 14px;
+  font-size: 0.78rem;
+  font-weight: 800;
 }
 
 .timeline {
@@ -931,7 +1011,8 @@
   }
 
   .componentSurface :global(.quick-add-grid),
-  .componentSurface :global(.inline-grid) {
+  .componentSurface :global(.inline-grid),
+  .componentSurface :global(.editor-grid) {
     grid-template-columns: 1fr;
   }
 }
