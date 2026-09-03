@@ -98,6 +98,22 @@
   outline: 3px solid rgba(26, 107, 74, 0.12);
 }
 
+.card :global(.auth-link) {
+  display: inline-block;
+  margin-top: 8px;
+  color: #1a6b4a;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-color: rgba(26, 107, 74, 0.35);
+  text-underline-offset: 3px;
+}
+
+.card :global(.auth-link.centered) {
+  justify-self: center;
+  margin-top: 2px;
+}
+
 .card :global(.button) {
   min-height: 46px;
   margin-top: 4px;
@@ -113,4 +129,12 @@
   margin: 0;
   color: #a54225;
   font-size: 0.78rem;
+}
+
+.card :global(.form-message.success) {
+  margin: 0;
+  color: #1a6b4a;
+  font-size: 0.78rem;
+  font-weight: 750;
+  line-height: 1.5;
 }
