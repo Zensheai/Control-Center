@@ -11,6 +11,7 @@ import type {
   TrendingTopic
 } from "@/lib/types";
 import { CalendarQuickAdd } from "@/components/calendar-quick-add";
+import { InboxWorkbench } from "@/components/inbox-workbench";
 import { LogoutButton } from "@/components/logout-button";
 import { PipelineBoard } from "@/components/pipeline-board";
 import { QuickAddPanel } from "@/components/quick-add-panel";
@@ -428,27 +429,9 @@ export function ControlCenterDashboard({
               <p className={styles.eyebrow}>Capture first, organize second</p>
               <h2>Clear the loose ends.</h2>
             </section>
-            <section className={styles.splitGrid}>
-              <article className={styles.panel}>
-                <div className={styles.panelHeading}><h3>Recent inbox</h3></div>
-                <div className={styles.stackList}>
-                  {data.inbox.map((item) => (
-                    <div className={styles.inboxRow} key={item.id}>
-                      <span>{item.inbox_type}</span>
-                      <div>
-                        <strong>{item.title}</strong>
-                        {item.body ? <p>{item.body}</p> : null}
-                        <small>{item.status} · {formatDate(item.created_at)}</small>
-                      </div>
-                    </div>
-                  ))}
-                  {data.inbox.length === 0 ? <EmptyState>Nothing is waiting in the inbox.</EmptyState> : null}
-                </div>
-              </article>
-              <div className={styles.componentSurface}>
-                <QuickAddPanel />
-              </div>
-            </section>
+            <div className={styles.componentSurface}>
+              <InboxWorkbench items={data.inbox} />
+            </div>
           </div>
         ) : null}
 

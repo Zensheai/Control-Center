@@ -707,6 +707,130 @@
   color: var(--orange);
 }
 
+.componentSurface :global(.inbox-workbench) {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.75fr);
+  gap: 28px;
+}
+
+.componentSurface :global(.inbox-queue) {
+  min-width: 0;
+}
+
+.componentSurface :global(.inbox-capture) {
+  border-left: 1px solid rgba(13, 27, 42, 0.1);
+  padding-left: 28px;
+}
+
+.componentSurface :global(.inbox-heading) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.componentSurface :global(.inbox-filters),
+.componentSurface :global(.inbox-actions) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.componentSurface :global(.inbox-filters) {
+  border-radius: 999px;
+  background: rgba(13, 27, 42, 0.055);
+  padding: 4px;
+}
+
+.componentSurface :global(.inbox-filters button) {
+  min-height: 30px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  padding: 0 12px;
+  font-size: 0.68rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.componentSurface :global(.inbox-filters button[aria-pressed="true"]) {
+  background: var(--cream);
+  color: var(--green);
+  box-shadow: 0 3px 12px rgba(13, 27, 42, 0.08);
+}
+
+.componentSurface :global(.inbox-list) {
+  display: grid;
+  gap: 10px;
+}
+
+.componentSurface :global(.inbox-card) {
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(13, 27, 42, 0.09);
+  border-radius: 14px;
+  background: var(--cream);
+  padding: 16px;
+}
+
+.componentSurface :global(.inbox-card-topline) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.componentSurface :global(.inbox-card-topline small),
+.componentSurface :global(.inbox-card p),
+.componentSurface :global(.inbox-destination),
+.componentSurface :global(.inbox-capture-copy),
+.componentSurface :global(.inbox-empty) {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.componentSurface :global(.inbox-card > strong) {
+  font-size: 0.92rem;
+}
+
+.componentSurface :global(.inbox-destination) {
+  color: var(--green);
+  font-weight: 850;
+}
+
+.componentSurface :global(.inbox-card p),
+.componentSurface :global(.inbox-capture-copy) {
+  margin: 0;
+}
+
+.componentSurface :global(.inbox-status) {
+  border-radius: 999px;
+  background: rgba(13, 27, 42, 0.07);
+  color: var(--muted);
+  padding: 5px 8px;
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.componentSurface :global(.inbox-status-new) {
+  background: rgba(26, 107, 74, 0.1);
+  color: var(--green);
+}
+
+.componentSurface :global(.inbox-status-dismissed) {
+  background: rgba(196, 96, 58, 0.1);
+  color: var(--orange);
+}
+
+.componentSurface :global(.inbox-capture .quick-form) {
+  margin-top: 20px;
+}
+
 .cardGrid {
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
 }
@@ -1014,5 +1138,16 @@
   .componentSurface :global(.inline-grid),
   .componentSurface :global(.editor-grid) {
     grid-template-columns: 1fr;
+  }
+
+  .componentSurface :global(.inbox-workbench) {
+    grid-template-columns: 1fr;
+  }
+
+  .componentSurface :global(.inbox-capture) {
+    border-top: 1px solid rgba(13, 27, 42, 0.1);
+    border-left: 0;
+    padding-top: 24px;
+    padding-left: 0;
   }
 }

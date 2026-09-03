@@ -72,6 +72,9 @@ export type InboxItem = {
   inbox_type: string;
   title: string;
   body: string | null;
+  source: string;
   status: string;
+  processed_into_table: string | null;
+  processed_into_id: string | null;
   created_at: string;
 };

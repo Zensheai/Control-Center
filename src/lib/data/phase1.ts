@@ -34,9 +34,9 @@ export async function getDashboardData() {
         .limit(250),
       supabase
         .from("inbox_items")
-        .select("id,inbox_type,title,body,status,created_at")
+        .select("id,inbox_type,title,body,source,status,processed_into_table,processed_into_id,created_at")
         .order("created_at", { ascending: false })
-        .limit(6)
+        .limit(100)
     ]);
 
   return {
